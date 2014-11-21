@@ -31,3 +31,39 @@ __MACOSX
 # emacs
 (.*/)?\#[^/]*\#$
 
+# Calabash Android
+*.class
+gen
+staging
+instrumentation_backend/.settings
+instrumentation_backend/assets/foo.bar
+*.png
+*.swp
+*.*~
+**/.DS_STORE
+ruby-gem/pkg
+ruby-gem/lib/calabash-android/lib/TestServer.apk
+ruby-gem/test-server/out
+calabash-android-*.gem
+.idea
+*.iml
+
+# For a library or gem, ignore these files since the code is intended to run in
+# multiple environments; otherwise, check them in.
+Gemfile.lock
+.ruby-version
+.ruby-gemset
+.bundle
+
+# emacs and vim
+(.*/)?\#[^/]*\#$
+tags
+
+# mergetools
+*.orig
+
+# Documentation cache and generated files:
+.yardoc
+_yardoc
+doc
+rdoc
