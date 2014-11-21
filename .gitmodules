@@ -1,3 +1,6 @@
 [submodule "ruby-gem/test-server/calabash-js"]
 	path = old/android/ruby-gem/test-server/calabash-js
 	url = https://github.com/calabash/calabash-js.git
+[submodule "old/android/ruby-gem/test-server/calabash-js"]
+	path = old/android/ruby-gem/test-server/calabash-js
+	url = git@github.com:calabash/calabash-js.git
