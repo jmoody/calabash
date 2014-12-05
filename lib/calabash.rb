@@ -4,4 +4,7 @@ module Calabash
   require 'calabash/version'
   require 'calabash/utility'
   require 'calabash/environment'
+  require 'calabash/gestures'
+
+  include Gestures
 end
