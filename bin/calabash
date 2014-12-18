@@ -15,6 +15,7 @@ module Calabash
       include Calabash::CLI::Generate
       include Calabash::CLI::Resign
       include Calabash::CLI::Run
+      include Calabash::CLI::Sim
 
       def initialize(arguments)
         @arguments = arguments.dup
@@ -49,6 +50,10 @@ module Calabash
       def parse_arguments!
         argument = @arguments.shift
 
+        handle_argument(argument)
+      end
+
+      def handle_argument(argument)
         case argument
           when '-v', '--verbose'
             @options[:verbose] = true
@@ -72,13 +77,23 @@ module Calabash
             parse_generate_arguments!
           when 'run'
             parse_run_arguments!
+          when 'sim'
+            handle_sim_argument(@arguments.shift)
           when 'help'
             argument = @arguments.shift
 
             if argument.nil?
               print_usage
             else
-              print_usage_for(argument.to_sym)
+              if argument == 'sim'
+                if @arguments.first
+                  print_usage_for("#{argument} #{@arguments.first}".to_sym)
+                else
+                  print_sim_usage
+                end
+              else
+                print_usage_for(argument.to_sym)
+              end
             end
           when nil
             print_usage

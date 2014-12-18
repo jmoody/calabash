@@ -6,5 +6,6 @@ module Calabash
     require 'calabash/cli/helpers'
     require 'calabash/cli/resign'
     require 'calabash/cli/run'
+    require 'calabash/cli/sim'
   end
 end

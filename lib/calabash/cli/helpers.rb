@@ -9,85 +9,110 @@ module Calabash
           version: 'version',
           setup: 'setup',
           resign: 'resign <apk>',
-          build: 'build <apk>'
+          build: 'build <apk>',
+          :'sim locale' => 'sim <lang> [region]',
+          :'sim location' => 'sim location <{on|off}> [application]',
+          :'sim reset' => 'sim reset',
+          :'sim acc' => 'sim acc',
+          :'sim device' => 'sim device {iPad|iPad_Retina|iPhone|iPhone_Retina|iPhone_Retina_4inch}'
       }
 
       def print_usage_for(command, output=STDOUT)
         if HELP[command].nil?
-          output.write <<EOF
+          output.write <<EOS
 No such command '#{command}'
-EOF
+EOS
         else
-          output.write <<EOF
+          output.write <<EOS
 Usage:
   calabash [options] #{HELP[command]}
-EOF
+EOS
         end
       end
 
       def print_usage(output=STDOUT)
-          output.write <<EOF
-  Usage: calabash [options] <command-name> [command specific options]
-  <command-name> can be one of
-    #{HELP[:help]} [command]
-      print help information.
+        output.write usage
+      end
 
-    #{HELP[:gen]}
-      generate a features folder structure based on the specified platform.
-      can be either 'android', 'ios' or 'cross-platform'
+      def usage
+        <<EOS
+Usage: calabash [options] <command-name> [command specific options]
+<command-name> can be one of
+  #{HELP[:help]} [command]
+    print help information.
 
-    #{HELP[:run]}
-      runs Cucumber in the current folder with the environment needed.
-      the cucumber options will be passed unchanged to cucumber
+  #{HELP[:gen]}
+    generate a features folder structure based on the specified platform.
+    can be either 'android', 'ios' or 'cross-platform'
 
-    #{HELP[:console]}
-      starts an interactive console to interact with your app via Calabash
+  #{HELP[:run]}
+    runs Cucumber in the current folder with the environment needed.
+    the cucumber options will be passed unchanged to cucumber
 
-    #{HELP[:version]}
-      prints the gem version
+  #{HELP[:console]}
+    starts an interactive console to interact with your app via Calabash
 
-    Android specific commands
-      #{HELP[:setup]}
-        sets up a non-default keystore to use with this test project.
+  #{HELP[:version]}
+    prints the gem version
 
-      #{HELP[:resign]}
-        resigns the app with the currently configured keystore.
+  Android specific commands
+    #{HELP[:setup]}
+      sets up a non-default keystore to use with this test project.
 
-      #{HELP[:build]}
-        builds the test server that will be used when testing the app.
+    #{HELP[:resign]}
+      resigns the app with the currently configured keystore.
 
-    iOS specific commands
-      setup <path>
-        setup your XCode project for calabash-ios (EXPERIMENTAL)
+    #{HELP[:build]}
+      builds the test server that will be used when testing the app.
 
-      check <{path to .ipa|<path to .app}>
-        check whether an app or ipa is linked with calabash.framework (EXPERIMENTAL)
+  iOS specific commands
+    setup <path>
+      setup your XCode project for calabash-ios (EXPERIMENTAL)
 
-      download
-        install latest compatible version of calabash.framework
+    check <{path to .ipa|<path to .app}>
+      check whether an app or ipa is linked with calabash.framework (EXPERIMENTAL)
 
-      check <{path to .ipa|path to .app}>
-        check whether an app or ipa is linked with calabash.framework
+    download
+      install latest compatible version of calabash.framework
 
-      sim locale <lang> [region]
-        change locale and regional settings in all iOS Simulators
+    check <{path to .ipa|path to .app}>
+      check whether an app or ipa is linked with calabash.framework
 
-      sim location <{on|off}> [path to .app]
-        set allow location on/off for current project or app
-
-      sim reset
-        reset content and settings in all iOS Simulators
-
-      sim acc
-        enable accessibility in all iOS Simulators
-
-      sim device {iPad|iPad_Retina|iPhone|iPhone_Retina|iPhone_Retina_4inch}
-        change the default iOS Simulator device.
+#{sim_usage.lines.map{|s| s.prepend('    ')}.join}
 
   [options] can be
     -v, --verbose
       Turns on verbose logging
-EOF
+EOS
+      end
+
+      def print_sim_usage(output=STDOUT)
+        output.write <<EOS
+Usage calabash sim <sim command> [arguments]
+#{sim_usage.lines.map{|s| s.prepend('  ')}.join}
+EOS
+      end
+
+      def sim_usage
+        usage = <<EOS
+#{HELP[:'sim locale']}
+  change locale and regional settings in all iOS Simulators
+
+#{HELP[:'sim location']}
+  set allow location on/off for current project or app
+
+#{HELP[:'sim reset']}
+  reset content and settings in all iOS Simulators
+
+#{HELP[:'sim acc']}
+  enable accessibility in all iOS Simulators
+
+#{HELP[:'sim device']}
+  change the default iOS Simulator device.
+EOS
+        lines = usage.lines
+        lines.last.chomp!
+        lines.join
       end
 
       def help
